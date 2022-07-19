@@ -1,37 +1,36 @@
 'use strict'
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
 
-
-const calorieRoute = require("./routes/calorie.routes")
-const userRoute = require("./routes/user.routes");
-
-require('dotenv').config();
-
+require("dotenv").config();
 
 const app = express();
-app.use(cors())
+
+// app config
+app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT ||5051;
-const db = process.env.DB_URL;
+// port and DB config
+const DATABASE_CONNECTION = process.env.DB_URL;
+const PORT = process.env.PORT || 5000;
 
-
-
-
-//app.use('/calories',calorieRoute);
-//app.use('/user',userRoute);
-
-
-mongoose.connect(db,{
+// mongoose connection
+mongoose
+  .connect(DATABASE_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    }).then(()=>{
-        app.listen(port,()=>{
-        console.log(`Server is running at port ${port}`)
-        })
-    }).catch(e=>{
-        console.log('Error while connecting to the db');
-})
+  })
+  .then(() =>
+    app.listen(PORT, () =>
+      console.log(`Server is running at : http://localhost:${PORT}`)
+    )
+  )
+  .catch((error) => console.error(error));
 
+// routers
+const calorie = require("./routes/calorie.routes.js");
+const users = require("./routes/user.routes.js");
+
+app.use("/calorie", calorie);
+app.use("/users", users);

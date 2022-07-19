@@ -1,29 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-const calorieSchema = new schema({
-    username:{
-        type:String,
-        required:true
-    },
-    description:{
-        type:String,
-        required:true
-    },
-    calories:{
-        type:Number ,
-        required:true
-    },
-    date:{
-        type: Date ,
-        required:true
-    }
-},{
-        timestamps:true,
-    }
-)
+const calorieSchema = new Schema(
+  {
+    username: { type: String, required: true },
+    description: { type: String, required: true },
+    calories: { type: Number, required: true },
+    date: { type: Date, required: true },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const calorie = mongoose.model('CalorieIntake',calorieSchema);
+const Calorie = mongoose.model("CalorieJournal", calorieSchema);
 
-module.exports = calorie;
+module.exports = Calorie;
